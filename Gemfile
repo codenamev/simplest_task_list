@@ -7,6 +7,9 @@ gem 'rails', '3.1.0.rc6'
 
 gem 'sqlite3'
 
+# Task-specific gems
+gem 'acts_as_list'
+
 
 # Gems used only for assets and not required
 # in production environments by default.

@@ -1,0 +1,11 @@
+<h1>Editing task</h1>
+
+<%= form_for(@task) do |f| %>
+  <%= render 'form' %>
+  <div class="actions">
+    <%= f.submit "Update" %>
+  </div>
+<% end %>
+
+<%= link_to 'Show', @task %> |
+<%= link_to 'Back', user_tasks_path(@current_user) %>

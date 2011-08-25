@@ -8,7 +8,8 @@ class SessionsController < ApplicationController
     if user or cookies.permanent[:auth_token]
       # auto-login for next visit
       cookies.permanent[:auth_token] = user.auth_token
-      redirect_to root_url, notice: => "Logged in!"
+      @current_user = user
+      redirect_to user_tasks_path(@current_user), notice: => "Logged in!"
     else
       flash.now.alert = "Invalid email"
       render "new"

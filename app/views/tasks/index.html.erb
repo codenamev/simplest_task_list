@@ -1,0 +1,49 @@
+<h1>Listing tasks</h1>
+
+<ul id="tasks">
+<% @tasks.each do |task| %>
+  <td><%= task.user_id %></td>
+  <li id="task_<%= task.id %>">
+    <span class="handle">[drag]</span>
+    <span class="date-due">
+      <span class="day"><%= task.due_date.strftime("%d") %></span>
+      <span class="month"><%= task.due_date.strftime("%b") %></span>
+      <span class="year"><%= task.due_date.strftime("%Y") %></span>
+    </span>
+    <%= task.title %> - <%= truncate(task.description, 40, "...") %>
+    <span class="actions">
+      <%= link_to 'Show', task %>&nbsp;
+      <%= link_to 'Edit', edit_task_path(task) %>&nbsp;
+      <%= link_to 'Destroy', task, confirm: 'Are you sure?', method: :delete %>
+    </span>
+  </li>
+<% end %>
+</ul>
+
+<% content_for :javascript do %>
+  <%= javascript_tag do %>
+    // Sorting the list
+
+    $(document).ready(function(){
+      $('#tasks').sortable({
+        axis: 'y',
+        dropOnEmpty: false,
+        handle: '.handle',
+        cursor: 'crosshair',
+        items: 'li',
+        opacity: 0.4,
+        scroll: true,
+        update: function(){
+          $.ajax({
+            type: 'post',
+            data: $('#tasks').sortable('serialize'),
+            dataType: 'script',
+            complete: function(request){
+            $('#tasks').effect('highlight');
+          },
+          url: '/users/<%= @current_user.id %>/tasks/sort'})
+        }
+      });
+    });
+  <% end %>  
+<% end %>

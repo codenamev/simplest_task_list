@@ -49,7 +49,7 @@ class UsersController < ApplicationController
         login_message << "  We also notice you've logged in from a different location.  We don't care, but you might ;-]" if user_may_be_different
         format.html { redirect_to user_path(@current_user), notice: "#{login_message}" }
       elsif @user.save
-        format.html { redirect_to @user, notice: 'Signed up!' }
+        format.html { redirect_to user_tasks_path(@user), notice: 'Signed up!' }
         format.json { render json: @user, status: :created, location: @user }
       else
         format.html { render action: "new" }
