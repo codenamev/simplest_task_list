@@ -5,6 +5,6 @@ describe "UserLoginWithEmails" do
     user = Factory(:user)
     visit login_path
     fill_in "Email", :with => user.email
-    click_button "Signup"
+    click_button "Sign in"
   end
 end

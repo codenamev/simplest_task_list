@@ -15,11 +15,11 @@
     <%= f.label :email %><br />
     <%= f.text_field :email %>
   </div>
-  <div class="field">
-    <%= f.label :auth_token %><br />
-    <%= f.hidden_field :auth_token, :value => "#{request.remote_ip}" %>
-  </div>
+  
   <div class="actions">
-    <%= f.submit %>
+    <% user_default_password = request.remote_ip %>
+    <%= f.hidden_field :password, :value => "#{user_default_password}" %>
+    <%= f.hidden_field :password_confirmation, :value => "#{user_default_password}" %>
+    <%= submit_tag "Sign Up" %>
   </div>
 <% end %>
