@@ -22,6 +22,14 @@ class TasksController < ApplicationController
     
     render :nothing => true
   end
+  
+  def complete
+    @task = Task.find(params[:task_id])
+    @task.completed_at = Time.zone.now
+    if @task.save
+      redirect_to user_tasks_url(@current_user), notice: "Task Completed!"
+    end
+  end
 
   # GET /tasks/1
   # GET /tasks/1.json

@@ -7,6 +7,7 @@ EnhancedTasks::Application.routes.draw do
   resources :users do
     resources :tasks do
       post :sort, on: :collection
+      post :complete
     end
   end
 end

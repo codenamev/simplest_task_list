@@ -14,8 +14,9 @@
 
 	<%= stylesheet_link_tag "style.css" %>
 
-	<%= javascript_include_tag "js/libs/modernizr-2.0.min.js" %>
-	<%= javascript_include_tag "js/libs/respond.min.js" %>
+	<%= javascript_include_tag "modernizr-2.0.min.js" %>
+	<%= javascript_include_tag "respond.min.js" %>
+	<%= yield :javascript %>
 </head>
 <body>
 	<div id="header-container">

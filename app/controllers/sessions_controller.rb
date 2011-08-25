@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   def new
-    redirect_to root_url, notice: => "Already logged in!" if @current_user
+    redirect_to user_tasks_url(@current_user), notice: "Already logged in!" if @current_user
   end
 
   def create
@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       # auto-login for next visit
       cookies.permanent[:auth_token] = user.auth_token
       @current_user = user
-      redirect_to user_tasks_path(@current_user), notice: => "Logged in!"
+      redirect_to user_tasks_path(@current_user), notice: "Logged in!"
     else
       flash.now.alert = "Invalid email"
       render "new"
@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
 
   def destroy
     cookies.delete(:auth_token)
-    redirect_to root_url, notice: => "Logged out!"
+    redirect_to root_url, notice: "Logged out!"
   end
 
 end
