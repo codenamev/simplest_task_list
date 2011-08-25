@@ -5,6 +5,5 @@
     <%= label_tag :email %>
     <%= text_field_tag :email, params[:email] %>
   </div>
-  <%= hidden_field_tag :password, :value => "#{request.remote_ip}" %>
   <div class="actions"><%= submit_tag "Sign in" %></div>
 <% end %>

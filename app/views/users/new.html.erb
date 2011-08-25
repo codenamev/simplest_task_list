@@ -1,5 +1,12 @@
 <h1>Sign Up</h1>
 
-<%= render 'form' %>
+<%= form_for(@user) do |f| %>
+  <%= render 'form', :f => f %>
+
+  <div class="actions">
+    <%= f.hidden_field :last_ip, :value => request.remote_ip %>
+    <%= submit_tag "Sign Up" %>
+  </div>
+<% end %>
 
 <%= link_to 'Back', users_path %>

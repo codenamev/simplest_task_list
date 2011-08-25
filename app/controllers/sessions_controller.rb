@@ -1,13 +1,14 @@
 class SessionsController < ApplicationController
   def new
+    redirect_to root_url, notice: => "Already logged in!" if @current_user
   end
 
   def create
     user = User.find_by_email(params[:email])
-    if user && user.authenticate(request.remote_ip)
+    if user or cookies.permanent[:auth_token]
       # auto-login for next visit
       cookies.permanent[:auth_token] = user.auth_token
-      redirect_to root_url, :notice => "Logged in!"
+      redirect_to root_url, notice: => "Logged in!"
     else
       flash.now.alert = "Invalid email"
       render "new"
@@ -16,7 +17,7 @@ class SessionsController < ApplicationController
 
   def destroy
     cookies.delete(:auth_token)
-    redirect_to root_url, :notice => "Logged out!"
+    redirect_to root_url, notice: => "Logged out!"
   end
 
 end

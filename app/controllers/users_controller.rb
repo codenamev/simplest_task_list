@@ -39,7 +39,16 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
 
     respond_to do |format|
-      if @user.save
+      if user_exists?(@user)
+        @current_user = User.find_by_email(@user.email)
+        cookies.permanent[:auth_token] = @current_user.auth_token
+        user_may_be_different = (@current_user.last_ip != request.remote_ip)
+        @current_user.last_ip = request.remote_ip
+        @current_user.save!
+        login_message = "You've already signed up, so we signed you in!"
+        login_message << "  We also notice you've logged in from a different location.  We don't care, but you might ;-]" if user_may_be_different
+        format.html { redirect_to user_path(@current_user), notice: "#{login_message}" }
+      elsif @user.save
         format.html { redirect_to @user, notice: 'Signed up!' }
         format.json { render json: @user, status: :created, location: @user }
       else
@@ -76,4 +85,11 @@ class UsersController < ApplicationController
       format.json { head :ok }
     end
   end
+  
+  private
+  
+    def user_exists?(user)
+       User.find_by_email(user.email).present?
+    end
+  
 end
